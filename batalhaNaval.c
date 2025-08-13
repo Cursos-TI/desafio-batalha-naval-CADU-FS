@@ -1,40 +1,56 @@
 #include <stdio.h>
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
-
 int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+  // Declaração da matriz do tabuleiro 10x10
+  int tabuleiro[10][10];
+  // Representação dos navios
+  int navio1_h[3] = {3, 3, 3}, navio2_v[3] = {3, 3, 3};
+  // Coordenadas da ponta dos navios
+  int coord_1[2] = {0, 7}, coord_2[2] = {5, 7};
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+  // Montagem do tabuleiro completo com 0s
+  for(int i = 0; i < 10; i++) {
+    for(int j = 0; j < 10; j++) {
+      tabuleiro[i][j] = 0;
+    }
+  }
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+  // Valida se o navio 1 está dentro dos limites do tabuleiro
+  if(coord_1[0] < 0 || coord_1[0] > 9 || coord_1[1] < 0 || coord_1[1] + 2 > 9) {
+    printf("O navio 1 passou dos limites do tabuleiro.\n");
+    return 1;
+  }
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+  // Valida se o navio 2 está dentro dos limites do tabuleiro
+  if(coord_2[0] < 0 || coord_2[0] + 2 > 9 || coord_2[1] < 0 || coord_2[1] > 9) {
+    printf("O navio 2 passou dos limites do tabuleiro.\n");
+    return 1;
+  }
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+  // Posicionamento do navio 1
+  for(int i = 0; i < 3; i++) {
+    tabuleiro[coord_1[0]][coord_1[1] + i] = navio1_h[i];
+  }
 
-    return 0;
+  // Posicionamento do navio 2
+  // A condição verifica se já há parte de outro navio na posição
+  for(int i = 0; i < 3; i++) {
+    if(tabuleiro[coord_2[0] + i][coord_2[1]] == 3) {
+      printf("O navio 2 está colidindo com outro navio.\n");
+      return 1;
+    } else {
+      tabuleiro[coord_2[0] + i][coord_2[1]] = navio2_v[i];
+    }
+  }
+
+  // Imprimir o tabuleiro junto com os navios
+  for(int i = 0; i < 10; i++) {
+    for(int j = 0; j < 10; j++) {
+      if(j != 9) {
+        printf("%i ", tabuleiro[i][j]);
+      } else {
+        printf("%i\n", tabuleiro[i][j]);
+      }
+    }
+  }
 }
